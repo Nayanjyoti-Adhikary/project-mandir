@@ -1,22 +1,20 @@
 const express = require('express');
-const cors = require('cors');
 const authRoutes = require('./routes/auth.route');
-
 const app = express();
 const port = 5000;
 
-// Middleware
-app.use(cors());
-app.use(express.json()); // No need for body-parser; express has built-in support
+require('dotenv').config();
 
-// Root API
+app.use(express.json());
+
+// API for test
 app.get('/', (req, res) => {
   res.status(200).json({
     message: 'Welcome to Satsang TU!'
   });
 });
 
-// Auth routes
+// Routes
 app.use('/auth', authRoutes);
 
 // Start server

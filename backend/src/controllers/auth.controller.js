@@ -1,4 +1,4 @@
-const { registerUser } = require("../repositories/auth.repository");
+const { registerUser, authenticateUser } = require("../repositories/auth.repository");
 
 const register = async (req, res) => {
     const { name, email, password } = req.body;
@@ -23,4 +23,19 @@ const register = async (req, res) => {
     }
 };
 
-module.exports = { register };
+const login = async (req, res) => {
+    const { email, password } = req.body;
+
+    if (!email || !password) {
+        return res.status(400).json({ message: 'Email and password are required' });
+    }
+
+    const result = await authenticateUser(email, password);
+    if (!result) {
+        return res.status(401).json({ message: 'Invalid email or password' });
+    }
+    
+    res.status(200).json({ message: 'Login successful' });
+}
+
+module.exports = { register, login };
